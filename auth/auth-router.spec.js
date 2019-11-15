@@ -7,7 +7,7 @@ describe('auth router', () => {
         it('should respond with a token given complete user information',
             async () => {
                 const info = {
-                    username: "testingUser",
+                    username: `testingUser${new Date()}`,
                     password: "testingPassword"
                 };
 
@@ -19,11 +19,12 @@ describe('auth router', () => {
         it('should include the provided username in the response',
             async () => {
                 const info = {
-                    username: "testingUser2",
+                    username: `testingUser${new Date()}`,
                     password: "testingPassword"
                 };
 
                 const newUser = await request(server).post('/api/auth/register').send(info);
+                console.log("New User: ", newUser.body);
                 return expect(newUser.body.user.username).toEqual(info.username);
             }
         );
@@ -31,17 +32,17 @@ describe('auth router', () => {
         it('should include an id in the user object',
             async () => {
                 const info = {
-                    username: "testingUser2",
+                    username: `testingUser${new Date()}`,
                     password: "testingPassword"
                 };
 
                 const newUser = await request(server).post('/api/auth/register').send(info);
-                return expect(newUser.body.user).toHaveProperty("id");
+                return expect(newUser.body.user.id).toBeDefined();
             }
         );
     });
 
-    describe('POST to /api/auth/login', () => {
+    // describe('POST to /api/auth/login', () => {
 
-    });
+    // });
 })
