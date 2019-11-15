@@ -41,6 +41,7 @@ router.post('/login', async (req, res) => {
       const token = getJwtToken(username);
       res.status(200).json({
         message: `Welcome to the site, ${username}`,
+        user,
         token
       });
     } else {

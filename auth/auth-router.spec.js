@@ -42,7 +42,33 @@ describe('auth router', () => {
         );
     });
 
-    // describe('POST to /api/auth/login', () => {
+    describe('POST to /api/auth/login', () => {
+        it('should include an id in the user object',
+            async () => {
+                const info = {
+                    username: `testingUser${new Date()}`,
+                    password: "testingPassword"
+                };
 
-    // });
+                const newUser = await request(server).post('/api/auth/register').send(info);
+
+                const loggedIn = await request(server).post('/api/auth/login').send(info);
+
+                return expect(loggedIn.body.user.id).toBeDefined();
+            }
+        );
+
+        it('should respond with a token given correct user information',
+            async () => {
+                const info = {
+                    username: `testingUser${new Date()}`,
+                    password: "testingPassword"
+                };
+
+                const newUser = await request(server).post('/api/auth/register').send(info);
+                const loggedIn = await request(server).post('/api/auth/login').send(info);
+                return expect(loggedIn.body).toHaveProperty("token");
+            }
+        );
+    });
 })
